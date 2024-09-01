@@ -1,0 +1,148 @@
+//{
+//  "Routes": [
+//    {
+//      "DownstreamPathTemplate": "/api/auth/token",
+//      "DownstreamScheme": "https",
+//      "DownstreamHostAndPorts": [
+//        {
+//          "Host": "authservice-f2braeekbue6dvha.eastus-01.azurewebsites.net",
+//          "Port": 443
+//        }
+//      ],
+//      "UpstreamPathTemplate": "/auth",
+//      "UpstreamHttpMethod": [ "POST", "GET" ]
+//    },
+//    {
+//      "DownstreamPathTemplate": "/api/products/list",
+//      "DownstreamScheme": "https",
+//      "DownstreamHostAndPorts": [
+//        {
+//          "Host": "productservice-bza2h6c5cjfjbab3.eastus-01.azurewebsites.net",
+//          "Port": 443
+//        }
+//      ],
+//      "UpstreamPathTemplate": "/products",
+//      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ],
+//      "AuthenticationOptions": {
+//        "AuthenticationProviderKey": "Bearer",
+//        "AllowedScopes": []
+//      }
+//    }
+//  ],
+//  "GlobalConfiguration": {
+//    "BaseUrl": "https://testgateay-fyfpcddehve0ephd.eastus-01.azurewebsites.net"
+//  }
+
+//}
+//{
+//  "Routes": [
+//    {
+//      "DownstreamPathTemplate": "/api/auth/token",
+//      "DownstreamScheme": "https",
+//      "DownstreamHostAndPorts": [
+//        {
+//          "Host": "localhost",
+//          "Port": 7078
+//        }
+//      ],
+//      "UpstreamPathTemplate": "/auth",
+//      "UpstreamHttpMethod": [ "POST", "GET" ]
+//    },
+//    {
+//      "DownstreamPathTemplate": "/api/products/list",
+//      "DownstreamScheme": "https",
+//      "DownstreamHostAndPorts": [
+//        {
+//          "Host": "localhost",
+//          "Port": 7148
+//        },
+//        {
+//          "Host": "localhost",
+//          "Port": 7054
+//        }
+//      ],
+//      "UpstreamPathTemplate": "/products",
+//      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ],
+//      "LoadBalancerOptions": {
+//        "Type": "RoundRobin" // Available types: RoundRobin, LeastConnection
+//      },
+//      "AuthenticationOptions": {
+//        "AuthenticationProviderKey": "Bearer",
+//        "AllowedScopes": []
+//      },
+//      "RateLimitOptions": {
+//        "ClientWhitelist": [], // Add specific clients to bypass rate limiting
+//        "EnableRateLimiting": true,
+//        "Period": "1s", // 1 minute period
+//        "PeriodTimespan": 1, // Defines the timespan for rate limiting
+//        "Limit": 3, // Maximum number of requests per period
+//        "QuotaExceededMessage": "Rate limit exceeded, please try again later.",
+//        "HttpStatusCode": 429, // HTTP status code for rate limit exceeded
+//        "DisableRateLimitHeaders": false // Include rate limit headers in responses
+//      },
+//      "FileCacheOptions": {
+//        "TtlSeconds": 30, // Time-to-live for the cache in seconds
+//        "Region": "ProductsCache" // Optional: Cache region identifier
+//      }
+//    }
+//  ],
+//  "GlobalConfiguration": {
+//    "BaseUrl": "https://localhost:7099"
+//  }
+
+//}
+{
+  "Routes": [
+    {
+      "DownstreamPathTemplate": "/api/auth/token",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5202
+        }
+      ],
+      "ServiceName": "AuthService",
+      "UpstreamPathTemplate": "/auth",
+      "UpstreamHttpMethod": [ "POST", "GET" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/products/list",
+      "DownstreamScheme": "http",
+      "ServiceName": "ProductService",
+      "UpstreamPathTemplate": "/products",
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ],
+      "LoadBalancerOptions": {
+        "Type": "RoundRobin"
+      },
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": []
+      },
+      "RateLimitOptions": {
+        "ClientWhitelist": [],
+        "EnableRateLimiting": true,
+        "Period": "1s",
+        "PeriodTimespan": 1,
+        "Limit": 3,
+        "QuotaExceededMessage": "Rate limit exceeded, please try again later.",
+        "HttpStatusCode": 429,
+        "DisableRateLimitHeaders": false
+      },
+      "FileCacheOptions": {
+        "TtlSeconds": 30,
+        "Region": "ProductsCache"
+      }
+    }
+  ],
+  "GlobalConfiguration": {
+   // "BaseUrl": "https://localhost:7099",
+    "BaseUrl": "http://localhost:5132",
+    "ServiceDiscoveryProvider": {
+      "Type": "Consul",
+      "Scheme": "http",
+      "Host": "localhost",
+      "Port": 8500
+    }
+  }
+}
