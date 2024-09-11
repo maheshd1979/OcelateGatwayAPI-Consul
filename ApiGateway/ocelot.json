@@ -104,7 +104,8 @@
       ],
       "ServiceName": "AuthService",
       "UpstreamPathTemplate": "/auth",
-      "UpstreamHttpMethod": [ "POST", "GET" ]
+      "UpstreamHttpMethod": [ "POST", "GET" ],
+      "UseServiceDiscovery": true
     },
     {
       "DownstreamPathTemplate": "/api/products/list",
@@ -132,7 +133,8 @@
       "FileCacheOptions": {
         "TtlSeconds": 30,
         "Region": "ProductsCache"
-      }
+      },
+      "UseServiceDiscovery": true
     }
   ],
   "GlobalConfiguration": {
